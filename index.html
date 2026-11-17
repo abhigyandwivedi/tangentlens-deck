@@ -4,6 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Analytica Business Engine — Powered by Tangent Lens</title>
   <style>
     :root {
@@ -98,6 +101,7 @@
       font-size: clamp(42px, 5.6vw, 84px);
       line-height: 1.02;
       background: linear-gradient(92deg, #fff, #9fb4ff);
+      padding-bottom: .12em;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent
@@ -443,11 +447,36 @@
       }
 
       .slide {
-        overflow: auto
+        justify-content: flex-start;
+        overflow-x: hidden;
+        overflow-y: auto
+      }
+
+      .slide>* {
+        flex: 0 0 auto;
+        min-width: 0
       }
 
       .vgrid-2 .shot img {
         max-height: none
+      }
+
+      .slide>.shot img {
+        max-height: none;
+        object-fit: contain
+      }
+
+      /* fade slide content out under the floating nav */
+      body:after {
+        content: "";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 104px;
+        background: linear-gradient(to top, #0a0e17 38%, rgba(10, 14, 23, .82) 70%, rgba(10, 14, 23, 0));
+        pointer-events: none;
+        z-index: 45
       }
     }
 
@@ -465,6 +494,449 @@
     .domains span { border: 1px solid var(--line); background: #0e1522; border-radius: 999px; padding: 5px 11px; font-size: 11.6px; color: #b9c6e2; white-space: nowrap; }
     .src-band { border: 1px solid #244063; background: linear-gradient(90deg, #101b2c, #0d1421); border-radius: 12px; padding: 9px 13px; font-size: 12.3px; color: #c3d0ea; line-height: 1.45; }
     .src-band b { color: var(--acc2); }
+    /* ================= mobile / touch ================= */
+    #bar {
+      display: none
+    }
+
+    #lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #05080e;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch
+    }
+
+    #lb.on {
+      display: block
+    }
+
+    #lb img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto
+    }
+
+    #lb .hint {
+      position: fixed;
+      left: 50%;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+      background: rgba(17, 24, 38, .94);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11.5px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      pointer-events: none
+    }
+
+    @media (max-width:900px) {
+      @supports (height:100dvh) {
+
+        html,
+        body {
+          height: 100dvh
+        }
+      }
+
+      html {
+        -webkit-text-size-adjust: 100%
+      }
+
+      * {
+        -webkit-tap-highlight-color: transparent
+      }
+
+      /* --- slide shell: top-aligned, scrollable, clear of the nav --- */
+      .slide {
+        padding: 54px 18px calc(78px + env(safe-area-inset-bottom, 0px));
+        justify-content: flex-start;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain
+      }
+
+      .slide>* {
+        flex: 0 0 auto;
+        max-width: 100%;
+        min-width: 0
+      }
+
+      /* centred when it fits, scrolls from the top when it does not */
+      .slide.title {
+        justify-content: flex-start
+      }
+
+      .slide.title .title-wrap {
+        margin-block: auto
+      }
+
+      /* --- reading progress --- */
+      #bar {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--acc), var(--acc2));
+        z-index: 60;
+        transition: width .25s ease
+      }
+
+      /* --- type --- */
+      .num {
+        top: 14px;
+        right: 18px;
+        font-size: 11px;
+        letter-spacing: .18em
+      }
+
+      .stitle {
+        font-size: 23px;
+        border-left-width: 3px;
+        padding-left: 12px;
+        margin-bottom: 16px;
+        line-height: 1.22
+      }
+
+      h2 {
+        font-size: 20px;
+        margin-bottom: 10px
+      }
+
+      .vignette h2 {
+        font-size: 20px
+      }
+
+      .title h1 {
+        font-size: clamp(36px, 11.5vw, 56px)
+      }
+
+      .eyebrow {
+        font-size: 10.5px;
+        letter-spacing: .2em;
+        margin-bottom: 12px
+      }
+
+      .sub {
+        font-size: 18px;
+        margin: 4px 0 14px
+      }
+
+      .lede {
+        font-size: 15px
+      }
+
+      .big {
+        font-size: 14.5px
+      }
+
+      ul.clean li {
+        font-size: 13.5px;
+        padding: .6em 0 .6em 20px
+      }
+
+      ul.clean li:before {
+        width: 6px;
+        height: 6px
+      }
+
+      .note {
+        font-size: 11.5px;
+        padding-left: 10px;
+        margin-top: 12px
+      }
+
+      .chips {
+        gap: 8px;
+        margin-top: 18px
+      }
+
+      .chips span {
+        font-size: 11.5px;
+        padding: 7px 12px
+      }
+
+      /* --- one column, everywhere --- */
+      .two,
+      .two.wide,
+      .arch,
+      .arch.two-by-two,
+      .vgrid,
+      .vgrid-2,
+      .cat-grid,
+      .cards {
+        grid-template-columns: 1fr
+      }
+
+      .two {
+        gap: 18px;
+        align-items: start
+      }
+
+      .arch {
+        gap: 9px;
+        margin-bottom: 14px
+      }
+
+      .vgrid {
+        gap: 13px
+      }
+
+      .vgrid-2,
+      .cat-grid {
+        gap: 12px
+      }
+
+      .stat-row,
+      .stat-row.four {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 14px
+      }
+
+      .stat {
+        padding: 10px 12px
+      }
+
+      .stat .n {
+        font-size: 19px
+      }
+
+      .stat .l {
+        font-size: 11px
+      }
+
+      /* --- screenshots: full width, never cropped --- */
+      .shot {
+        border-radius: 12px
+      }
+
+      .shot img,
+      .slide>.shot img,
+      .vgrid-2 .shot img {
+        max-height: none;
+        object-fit: contain
+      }
+
+      .shot figcaption {
+        font-size: 11px;
+        padding: 8px 11px
+      }
+
+      .shot figcaption:after {
+        content: " · tap to enlarge";
+        color: var(--acc);
+        opacity: .8
+      }
+
+      /* --- catalogue + evidence blocks --- */
+      .cat {
+        gap: 11px
+      }
+
+      .cat-lead {
+        font-size: 13.5px
+      }
+
+      .svc {
+        padding: 11px 13px
+      }
+
+      .svc h3 {
+        font-size: 13.5px
+      }
+
+      .svc p {
+        font-size: 12.5px
+      }
+
+      .cat-label {
+        margin-top: 4px;
+        font-size: 10px
+      }
+
+      .domains span {
+        font-size: 11.5px;
+        padding: 6px 11px
+      }
+
+      .src-band {
+        font-size: 12px;
+        padding: 10px 12px
+      }
+
+      .node {
+        padding: 13px 14px
+      }
+
+      .node h3 {
+        font-size: 12.5px
+      }
+
+      .step {
+        padding: 10px 13px;
+        gap: 11px
+      }
+
+      .step b {
+        font-size: 14px
+      }
+
+      .step p,
+      .card p {
+        font-size: 12.5px
+      }
+
+      /* --- nav: thumb-sized, above the home indicator --- */
+      .nav {
+        bottom: calc(9px + env(safe-area-inset-bottom, 0px));
+        gap: 2px;
+        padding: 3px 7px
+      }
+
+      .nav button {
+        font-size: 17px;
+        padding: 10px 18px;
+        border-radius: 999px
+      }
+
+      .nav .pg {
+        font-size: 11.5px;
+        min-width: 54px
+      }
+    }
+
+    /* landscape phones and short windows: keep two columns, shrink the chrome */
+    @media (max-height:520px) and (min-width:660px) {
+      .slide {
+        padding: 30px 22px calc(58px + env(safe-area-inset-bottom, 0px))
+      }
+
+      .slide.title {
+        padding-top: 30px
+      }
+
+      .two,
+      .two.wide,
+      .vgrid-2,
+      .cat-grid,
+      .cards,
+      .arch,
+      .arch.two-by-two {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .vgrid {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .stitle {
+        font-size: 19px;
+        margin-bottom: 10px
+      }
+
+      h2 {
+        font-size: 17px;
+        margin-bottom: 8px
+      }
+
+      .vignette h2 {
+        font-size: 17px
+      }
+
+      .title h1 {
+        font-size: clamp(30px, 4.4vw, 42px)
+      }
+
+      .sub {
+        font-size: 15px
+      }
+
+      .lede {
+        font-size: 13px
+      }
+
+      .big {
+        font-size: 12.5px
+      }
+
+      ul.clean li {
+        font-size: 12px;
+        padding: .45em 0 .45em 18px
+      }
+
+      .note {
+        font-size: 10.5px;
+        margin-top: 8px
+      }
+
+      .num {
+        top: 10px;
+        font-size: 10px
+      }
+
+      .chips {
+        margin-top: 12px
+      }
+
+      .chips span {
+        font-size: 11px
+      }
+
+      .arch {
+        gap: 8px;
+        margin-bottom: 10px
+      }
+
+      .node {
+        padding: 10px 12px
+      }
+
+      .node p {
+        font-size: 11.5px
+      }
+
+      .stat-row,
+      .stat-row.four {
+        gap: 8px;
+        margin-top: 10px
+      }
+
+      .step {
+        padding: 8px 11px
+      }
+
+      .step p {
+        font-size: 11.5px
+      }
+
+      .shot figcaption {
+        font-size: 10.5px;
+        padding: 6px 10px
+      }
+
+      body:after {
+        height: 74px
+      }
+
+      .nav {
+        bottom: calc(5px + env(safe-area-inset-bottom, 0px))
+      }
+
+      .nav button {
+        padding: 7px 14px;
+        font-size: 15px
+      }
+    }
   </style>
 </head>
 
@@ -522,11 +994,11 @@
       </div>
       <p class="cat-label">Applicable domains — </p>
       <div class="domains">
-        <span>City &amp; municipal operations</span><span>Mining</span><span>Manufacturing</span><span>Retail &amp;
+        <span>Enterprise Network &amp; Threat operations</span><span>Mining</span><span>Manufacturing</span><span>Retail &amp;
           supply chain</span><span>Defence &amp;
           public safety</span><span>Oil &amp; gas</span><span>Energy &amp; utilities</span><span>Logistics &amp;
           transport</span><span>Healthcare &amp; public health</span><span>Agriculture &amp; environment</span><span>Telecom
-          networks</span><span>Financial operations</span><span>Social impact &amp; non-profit</span>
+          networks</span><span>Financial operations</span><span>Social impact &amp; non-profit</span><span>LORA &amp; network monitoring [In Progress]</span>
       </div>
       <div class="src-band"><b>Source-agnostic by design.</b> Sensors and PLC/RTU tags, smart meters, transactions and
         orders, CRM and service tickets, field-workforce apps, permits and registers, public datasets — any real-world
@@ -988,13 +1460,13 @@
     <h1 class="stitle">ROI, roadmap and next steps</h1>
     <div class="two">
       <div class="col">
-        <h2>Deploy in under an hour, Develop rules in under an hour, Prove value by the days evening.</h2>
+        <h2>Deploy in under an hour, Develop rules in under an hour, Prove value by the day's evening.</h2>
         <div class="road">
           <div class="step"><span>01</span>
             <div><b>Instrument one asset class</b>
               <p>e.g. Manufacturing Domain: set up the ingest bridge, collect readings, alarms and work orders. Evaluate
                 the stimuls
-                impact and event contract by days end.
+                impact and event contract by the day's end.
               </p>
             </div>
           </div>
@@ -1015,7 +1487,7 @@
           </div>
         </div>
         <div class="stat-row four">
-          <div class="stat"><span class="n">Weeks</span><span class="l">to first metric</span></div>
+          <div class="stat"><span class="n">Hours</span><span class="l">to first metric</span></div>
           <div class="stat"><span class="n">1</span><span class="l">event contract</span></div>
           <div class="stat"><span class="n">24/7</span><span class="l">auditable trail</span></div>
           <div class="stat"><span class="n">0</span><span class="l">raw events to AI</span></div>
@@ -1030,15 +1502,73 @@
       </figure>
     </div>
   </section>
+  <div id="bar"></div>
+  <div id="lb"><img alt="Screenshot, full screen"><div class="hint">Pinch to zoom · tap to close</div></div>
   <div class="nav"><button id="prev">◀</button><span class="pg"><b id="cur">1</b> / 15</span><button
       id="next">▶</button></div>
   <script>
-    const s = [...document.querySelectorAll('.slide')]; let i = 0;
-    function show(n) {i = Math.max(0, Math.min(s.length - 1, n)); s.forEach((el, k) => el.classList.toggle('active', k === i)); document.getElementById('cur').textContent = i + 1;}
+    const slides = [...document.querySelectorAll('.slide')];
+    const cur = document.getElementById('cur');
+    const bar = document.getElementById('bar');
+    let i = 0;
+
+    function show(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach((el, k) => el.classList.toggle('active', k === i));
+      cur.textContent = i + 1;
+      if (bar) bar.style.width = (slides.length > 1 ? (i / (slides.length - 1)) * 100 : 100) + '%';
+      slides[i].scrollTop = 0;
+      try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) { }
+    }
+
     document.getElementById('next').onclick = () => show(i + 1);
     document.getElementById('prev').onclick = () => show(i - 1);
-    addEventListener('keydown', e => {if (e.key === 'ArrowRight' || e.key === 'PageDown') show(i + 1); if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(i - 1);});
-    show(0);
+
+    addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') show(i + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') show(i - 1);
+    });
+
+    /* --- tap a screenshot to open it full-bleed (touch and small screens) --- */
+    const lb = document.getElementById('lb');
+    const lbImg = lb.querySelector('img');
+    const canZoom = () => matchMedia('(pointer:coarse)').matches || window.innerWidth <= 820;
+
+    document.querySelectorAll('.shot img').forEach(img => {
+      img.addEventListener('click', () => {
+        if (!canZoom()) return;
+        lbImg.src = img.src;
+        lb.classList.add('on');
+        lb.scrollTop = 0;
+      });
+    });
+
+    lb.addEventListener('click', () => {
+      lb.classList.remove('on');
+      lbImg.removeAttribute('src');
+    });
+
+    /* --- swipe left / right to change slide --- */
+    let sx = 0, sy = 0, st = 0;
+    addEventListener('touchstart', e => {
+      if (e.touches.length !== 1 || lb.classList.contains('on')) return;
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+      st = Date.now();
+    }, { passive: true });
+
+    addEventListener('touchend', e => {
+      if (e.touches.length || lb.classList.contains('on')) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Date.now() - st < 800 && Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+        show(i + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
+
+    /* --- deep link: deck/#7 opens slide 7 --- */
+    const deep = parseInt((location.hash || '').replace('#', ''), 10);
+    show(Number.isFinite(deep) && deep >= 1 ? deep - 1 : 0);
   </script>
 </body>
 

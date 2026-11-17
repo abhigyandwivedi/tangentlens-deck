@@ -7,9 +7,18 @@ fragmented telemetry to governed, auditable decisions.
 
 ## Navigating
 
-Open the page and use the arrow keys (`←` / `→`) or `PageUp` / `PageDown`, or click the
-arrow buttons at the bottom. The deck is a single self-contained HTML file — no build
-step, no dependencies, no network calls.
+Desktop: arrow keys (`←` / `→`) or `PageUp` / `PageDown`, or the arrow buttons at the
+bottom.
+
+Mobile and tablet: **swipe left or right** to change slide, or use the arrow buttons. Each
+slide scrolls on its own, so long slides read top-to-bottom. Tap any screenshot to open it
+full screen; pinch to zoom, tap to close. A thin progress bar at the top shows where you
+are.
+
+Deep links work too — append `#7` to open slide 7 directly.
+
+The deck is a single self-contained HTML file — no build step, no dependencies, no network
+calls.
 
 ## Contents
 
