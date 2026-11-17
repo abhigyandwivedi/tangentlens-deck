@@ -25,19 +25,19 @@ calls.
 | # | Slide |
 |---|-------|
 | 1 | Title |
-| 2 | Service catalogue — one workspace, any operation |
-| 3 | Fundamental Introduction |
+| 2 | Service Catalogue — One Workspace, Any Operation |
+| 3 | Fundamental introduction |
 | 4 | Why now: the industrial data-to-AI gap |
 | 5 | Platform architecture |
 | 6 | Real-time ingestion and edge reliability |
-| 7 | Entity graph and ontology modeling |
+| 7 | Entity graph and ontology modelling |
 | 8 | Governed metrics and the trust layer |
 | 9 | Domain example: Mining |
 | 10 | Domain example: Manufacturing |
 | 11 | Domain example: Social causes & non-profit |
 | 12 | Domain example: Retail & supply chain |
 | 13 | Domain example: Oil & Gas |
-| 14 | Domain example: Military & Defense |
+| 14 | Domain example: Military & Defence |
 | 15 | ROI, roadmap and next steps |
 
 ## About the evidence
